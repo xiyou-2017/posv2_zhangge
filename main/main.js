@@ -1,4 +1,12 @@
 'use strict';
+let printReceipt=(inputs)=>{
+    let itemCounts=buildItems(inputs);
+    let itemTotals = buildItemTotals(itemCounts);
+    let total = buildTotal(itemTotals);
+    let string = printReceiptTxt(total);
+    console.log(string);
+};
+
 let buildItems = (inputs)=> {
     let itemCounts = [];
     let allItems = Item.all();
