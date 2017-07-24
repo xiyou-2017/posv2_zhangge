@@ -42,3 +42,13 @@ let discount = (promotionType, cartItem)=> {
     return {subtotal, itemDiscount};
 };
 
+let buildTotal = (itemTotals)=> {
+    let total = 0;
+    let discount = 0;
+    for (let itemStatus of itemTotals) {
+        total += itemStatus.subtotal;
+        discount += itemStatus.itemDiscount;
+    }
+    return {list: itemTotals, total: total, discount: discount};
+};
+
