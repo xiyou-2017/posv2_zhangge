@@ -18,4 +18,27 @@ let buildItems = (inputs)=> {
     return itemCounts;
 };
 
+let buildItemTotals = (itemCount)=> {
+    return itemCount.map(cartItem=> {
+        let promotionType = getPromotionType(cartItem);
+        let {subtotal, itemDiscount} = discount(promotionType, cartItem);
+        return {cartItem, subtotal, itemDiscount};
+    })
+};
+
+let getPromotionType = (cartItem)=> {
+    let promotions = Promotion.all();
+    let promotion = promotions.find((promotion)=>promotion.barcodes.includes(cartItem.item.barcode));
+    return promotion ? promotion.type : ' ';
+};
+
+let discount = (promotionType, cartItem)=> {
+    let freeItemCount = 0;
+    if (promotionType === "BUY_TWO_GET_ONE_FREE") {
+        freeItemCount = parseInt(cartItem.count / 3);
+    }
+    let itemDiscount = cartItem.item.price * freeItemCount;
+    let subtotal = cartItem.item.price * (cartItem.count - freeItemCount);
+    return {subtotal, itemDiscount};
+};
 
